@@ -1,0 +1,27 @@
+{% extends 'student/base.html' %}
+{% load static %}
+{% block body_block %}
+<html lang="en">
+<body>
+<div class="col-lg-6" style = "left: 10%">
+	<div class="register_form_title"><br>
+        <br><br><br><br><br><br><br>
+
+		{% for skill, value in skill_question.items %}
+		{% for v in value %}
+		<label style="color:black;font-size:18px;">{{ v }} .{{ skill }} </label><br>
+		{% endfor%}
+		<br>
+		{% endfor %}
+
+
+		<br><br><br><br>
+		<br><br><br><br>
+		<br><br><br><br>
+	</div>
+</div>
+</body>
+</html>
+
+
+{% endblock %}

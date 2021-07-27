@@ -1,0 +1,26 @@
+{% extends 'student/base.html' %}
+{% load static %}
+
+{% block body_block %}
+<br><br><br><br><br><br><br>
+<div style="position: absolute; width: 1300px; height: 500px; z-index: 15; top: 40%;left: 40%; margin: -100px 0 0 -150px;">
+  <div class="col-lg-6">
+    <div class="register_form_container">
+      <div class="register_form_title">
+        {% if registered %}
+        <h1>thank you for registering</h1>
+        {% else %}
+        <h2>Register Now!</h2><br>
+
+        <form method="post" id="RegisterForm" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ user_form.as_p }}
+          <br>
+          <input type="submit" name="" value="Register" class="form_button trans_200">
+        </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

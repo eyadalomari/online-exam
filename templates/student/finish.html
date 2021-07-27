@@ -1,0 +1,54 @@
+{% extends 'student/base.html' %}
+{% load static %}
+{% block body_block %}
+<html lang="en">
+<body>
+<div class="home">
+	<div class="home_content">
+		<div class="container">
+			<div class="row">
+				<div class="col text-center">
+					{% if is_pass %}
+					<h1 class="home_title" style="color: green;"> congratulations {{ username }}</h1>
+					<label style="color: green; font-size:22px;">you pass in {{exam_name}} exam, and your mark = {{ mark }}/100</label>
+					{% else %}
+					<h1 class="home_title" style="color: red;">We are sorry {{ username }}</h1>
+					<label style="color: red; font-size:22px;">unfortunately you fail in {{exam_name}} exam, and your mark = {{ mark }}/100</label>
+					{% endif %}
+					<br><br>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="col-lg-6" style = "left: 10%">
+	<div class="register_form_title"><br>
+		<label style="color:black;font-size:25px;">Your Answers </label><br><br><br>
+		{% for answer in student_answers %}
+		<label style="color:black;font-size:18px;">{{ forloop.counter }}. {{ answer.question.title }}</label><br>
+			{% for ans in all_answers %}
+				{% if ans.question.id == answer.question.id %}
+					{% if ans.is_correct %}
+						<label style="color: green; font-size:15px;">&emsp;{{ ans.title }}</label><br>
+					{% else %}
+						{% if ans.title == answer.student_answer.title %}
+							<label style="color: red; font-size:15px;">&emsp;{{ ans.title }}</label><br>
+						{% else %}
+							<label style="color: black; font-size:15px;">&emsp;{{ ans.title }}</label><br>
+						{% endif %}
+					{% endif %}
+				{% endif %}
+			{% endfor %}
+		<br><br>
+		{% endfor %}
+		<br><br><br><br>
+		<br><br><br><br>
+		<br><br><br><br>
+	</div>
+</div>
+</body>
+</html>
+
+
+{% endblock %}

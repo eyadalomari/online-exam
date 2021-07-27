@@ -1,0 +1,30 @@
+{% extends 'student/base.html' %}
+{% load static %}
+{% block body_block %}
+<div style="position: absolute; width: 1300px; height: 500px; z-index: 15; top: 40%;left: 20%; margin: -100px 0 0 -150px;">
+    <h2 class="section_title text-center">Upcoming Exams</h2>
+</div>
+
+<div style="position: absolute; width: 1300px; height: 500px; z-index: 15; top: 40%;left: 30%; margin: -100px 0 0 -150px;">
+    <div class="container">
+        <div class="row events_row">
+            {% for exam in exams %}
+            <div class="col-lg-4 event_col">
+                <div class="event">
+                    <div class="event_image"><img src="{% static 'images/event_2.jpg' %}" alt=""></div>
+                    <div class="event_date d-flex flex-column align-items-center justify-content-center">
+                        <div style="left:7%">{{ exam.date_time }}</div>
+                    </div>
+                    <div class="event_body d-flex flex-row align-items-center justify-content-start">
+                        <div class="event_title"><a href="{% url 'student:ready' exam.id %}">{{ exam.name }}</a></div>
+                        <div class="event_tag ml-auto">{{ exam.duration }}</div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

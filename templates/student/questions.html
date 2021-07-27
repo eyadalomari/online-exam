@@ -1,0 +1,130 @@
+{% extends 'student/base.html' %}
+
+{% block javascript %}
+<script>
+
+$(function () {
+  	$('input').on('click', function () {
+  		var answer = $(this).val();
+  		console.log(answer)
+        $.ajax({
+        	type: 'POST',
+            url: '{% url 'student:save_answers' %}',
+            data: {
+            	exam : $("input[name=exam]").val(),
+            	question : $("input[name=question]").val(),
+            	answer : answer,
+            },
+        });
+    });
+});
+
+$(document).ready(function(){
+	$.ajax({
+	    type: 'GET',
+		url: '{% url 'student:save_answers' %}',
+        context: document.body,
+        data: {
+            	exam : $("input[name=exam]").val(),
+            	question : $("input[name=question]").val(),
+            },
+        dataType : "json",
+		success: function(data){
+			var answer_id = data['answer_id']
+			var answer_title = data['answer_title']
+            $('input[id="' + answer_id + '"][value="' + answer_title + '"]').attr('checked', true);
+        }});
+});
+
+</script>
+{% endblock %}
+
+
+{% block body_block %}
+{% load static %}
+
+<div class="col-lg-6" style = "left: 10%">
+      <div class="register_form_title"><br><br><br><br>
+		  <h4>Welcome to Examination, {{ username }}</h4>
+		  <h5>{{ exam_name }} Exam</h5>
+		  <br><br>
+			<!-- questions.1.question.id  -->
+		  <form id="questions_form" action="{% url 'student:finish' exam_id %}" method="POST">
+			  {% csrf_token %}
+
+			  <input class="hidden" name="exam" value="{{ exam_id  }}"></input>
+			  {% for question in questions %}
+			  <br>
+			  <h5>{{ question.skill }}</h5>
+			  <br><br>
+			  <input class="hidden" name="question" value="{{ question.id }}" style="color:black;font-size:20px;"></input>{{ questions.number }}. {{ question }}<br>
+
+			  {%  for answer in answers %}
+			  {% if answer.question.id == question.id %}
+
+			  <input type="radio" id="{{ answer.id }}" name="answer" value="{{ answer.title }}"/>
+
+			  {% if answer.is_correct %}
+			  <label><span style="color: black; font-size:14px;">{{ answer.title }}</span></label><br>
+			  {% else %}
+			  <label><span style="color: black; font-size:14px;">{{ answer.title }}</span></label><br>
+			  {% endif %}
+
+
+			  {% endif %}
+			  {% endfor %}
+			  {% endfor %}
+			  <br><br><br>
+
+			  {% if not questions.has_next %}
+			  <div class="register_form_title">
+				  <input type="submit" name='Finish' value="Finish" class="form_button trans_200">
+			  </div>
+			  {% endif %}
+
+			  <br><br><br><br><br><br>
+
+
+			  <div class="row">
+				  <div class="col-md-12">
+					  {% if questions.has_other_pages %}
+					  <ul class="pagination">
+						  {% if questions.has_previous %}
+						  <li class="page-item">
+							  <a href="?page={{ questions.previous_page_number }}" class="page-link">&laquo;</a>
+						  </li>
+						  {% else %}
+						  <li class="page-item disabled">
+							  <a class="page-link">&laquo;</a>
+						  </li>
+						  {% endif %}
+						  {% for i in questions.paginator.page_range %}
+						  {% if questions.number == i %}
+						  <li class="page-item active">
+							  <a class="page-link">{{i}}</a>
+						  </li>
+						  {% else %}
+						  <li class="page-item">
+							  <a href="?page={{ i }}" class="page-link">{{i}}</a>
+						  </li>
+						  {% endif %}
+						  {% endfor %}
+						  {% if questions.has_next %}
+						  <li class="page-item">
+							  <a href="?page={{ questions.next_page_number }}" class="page-link">&raquo;</a>
+						  </li>
+						  {% else %}
+						  <li class="page-item disabled">
+							  <a class="page-link">&raquo;</a>
+						  </li>
+						  {% endif %}
+					  </ul>
+					  {% endif %}
+				  </div>
+			  </div>
+
+
+		  </form>
+	  </div>
+</div>
+{% endblock %}

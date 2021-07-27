@@ -1,0 +1,15 @@
+{% extends 'student/base.html' %}
+{% block body_block %}
+<div style="position: absolute; width: 1000px; height: 500px; z-index: 15; top: 40%;left: 42%; margin: -100px 0 0 -150px;">
+  <div class="col-lg-6">
+      <div class="register_form_title">
+        <h3> Click on Ready button for {{ exam.name }} when you are </h3><br><br>
+        <form action="{% url 'student:ready' exam.id %}" method="post">
+          {% csrf_token %}
+          <input type="submit" value="Ready" class="form_button trans_200">
+        </form>
+      </div>
+  </div>
+</div>
+
+{% endblock %}

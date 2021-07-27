@@ -1,0 +1,32 @@
+{% extends 'student/base.html' %}
+{% load static %}
+{% block body_block %}
+<!DOCTYPE html>
+<html lang="en">
+<body>
+
+<div class="super_container">
+
+	<div class="home">
+		<div class="home_background" style="background-image:url({% static 'images/index_background.jpg' %})"></div>
+		<div class="home_content">
+			<div class="container">
+				<div class="row">
+					<div class="col text-center">
+						<h1 class="home_title">Learn Languages Easily</h1>
+						<div class="home_button trans_200"><a href="{% url 'student:register' %}">get started</a></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+{% endblock %}
